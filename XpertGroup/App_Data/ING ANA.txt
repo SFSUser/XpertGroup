@@ -1,0 +1,38 @@
+Primordial:
+Convenio Ing Ana
+Certificado Ana
+Complementar documentos e instructivos - UniHealth
+
+margoth:
+lista de trabajos realizados
+compra de huellero
+
+-------------------------------------------
+
+YA - Vacunación limites
+YA - Reporte historias aleatorias
+YA - Alerta empresas deudoras
+- Laboratorios remitidos COLCAN
+- Limite para contratos
+YIA - Audiometría via osea (ver simbolos) muñeco de fowler
+
+
+- Categorias recomendaciones
+- Programa de vigilancia epidemiologica
+- ICS RH Torta
+- ICS Texto predeterminado
+YA - Quitar enlace descarga backups
+
+
+_____________________________________________
+
+
+
+- Lista de Consulta de servicios (nit) sin simplificar 
+	90212122: EMPRESA
+
+- REPORTE RECEPCION ...
+
+- CONSECUTIVO FACTURA DIAN ... FACTURA... CAMPO PARA INGRESAR
+
+- CARGAR ARCHIVOS EN OPENCLOUD

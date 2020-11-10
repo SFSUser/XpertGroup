@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Página principal de la prueba";
+}
+
+<!--SCRIPT CON EL CODIGO DE ANGULAR QUE OPERA EN LA INTERFAZ-->
+<script>
+    var app = angular.module("app", []);
+    //DIRECTIVA PARA CARGAR ARCHIVOS EN ANGULAR...
+    app.directive("fileread", [function () {
+        return {
+            scope: {
+                fileread: "="
+            },
+            link: function (scope, element, attributes) {
+                element.bind("change", function (changeEvent) {
+                    scope.fileread = changeEvent.target.files[0];
+                });
+            }
+        }
+    }]);
+    //CONTROLADOR PRINCIPAL
+    app.controller('controller_main', function ($http, $scope) {
+        var c = this;
+        $scope.form = {};
+        $scope.data = [];
+        c.upload = function () {
+            //CREAR DATOS DE ENVIO
+            console.log($scope.form.file);
+            let data = new FormData();
+            data.append("file", $scope.form.file);
+
+            //ENVIAR ARCHIVO AL SERVIDOR
+            return $http.post('@Url.Action("Lista", "Home")', data, {
+                transformRequest: angular.identity,
+                headers: { 'Content-Type': undefined }
+            }).then(function (r) {
+                console.log(r);
+                if (r.data.result == 0) {
+                    alert(r.data.message);
+                }
+                $scope.data = r.data;
+            }).catch(function () {
+                alert("Ocurrió un error al intentar subir el archivo...");
+            });;
+        };
+    });
+</script>
+
+<!--APP Y CONTROLADOR ANGULAR EN LA MISMA ETIQUETA-->
+<div ng-app="app" ng-controller="controller_main as c" style="margin-top: 20px;">
+    <div style="padding: 10px;">
+        Según los requerimentos planteados, se elaboró la siguiente interfaz para calificar las sesiones de chat.
+    </div>
+    <!--FORMULARIO PARA LA CARGA DEL ARCHIVO DE CONVERSACIONES-->
+    <div class="panel panel-info">
+        <div class="panel-heading">Subir archivo de conversaciones...</div>
+        <div class="panel-body">
+            <div>Por favor, seleccione el archivo en el cual se encuentra la conversación:</div>
+            <form enctype="multipart/form-data" ng-submit="c.upload()">
+                <div class="form-group">
+                    <label for="file"></label>
+                    <input class="form-control" fileread="form.file" type="file" name="file" />
+                </div>
+                <button type="submit" class="btn btn-success">Enviar archivo</button>
+            </form>
+        </div>
+    </div>
+    <!--MOSTRAR LISTADO DE RESULTADOS-->
+    <div class="panel panel-default">
+        <div class="panel-heading">Encabezado de la tabla</div>
+        <div class="panel-body">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Nombre de la conversación</th>
+                    <th>Duración (Segundos)</th>
+                    <th>Puntos</th>
+                    <th>Calificación</th>
+                </tr>
+                <tr ng-repeat="d in data">
+                    <td>{{d.Nombre}}</td>
+                    <td>{{d.Duration}}</td>
+                    <td>{{d.Points}}</td>
+                    <td>
+                        {{d.Score}} -
+                        <!--MOSTRAR LAS ESTRELLAS SEGÚN CALIFICACIÓN-->
+                        <i ng-repeat="x in [].constructor(5)  track by $index" class="glyphicon" ng-class="d.Score > $index ? 'glyphicon-star' : 'glyphicon-star-empty'"></i>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
